@@ -7,9 +7,10 @@ type BookListProps = {
   onEdit: (book: Book) => void;
   onDelete: (id: number) => Promise<void> | void;
   deletingId: number | null;
+  canManage: boolean;
 };
 
-const BookList = ({ books, onEdit, onDelete, deletingId }: BookListProps) => {
+const BookList = ({ books, onEdit, onDelete, deletingId, canManage }: BookListProps) => {
   if (books.length === 0) {
     return (
       <Card>
@@ -29,7 +30,7 @@ const BookList = ({ books, onEdit, onDelete, deletingId }: BookListProps) => {
               <Text size="2">Quantity: {book.quantity}</Text>
             </Flex>
             <Flex align="center" gap="2">
-              <Button variant="soft" onClick={() => onEdit(book)}>
+              <Button variant="soft" onClick={() => onEdit(book)} disabled={!canManage}>
                 <Pencil1Icon />
                 Edit
               </Button>
@@ -37,7 +38,7 @@ const BookList = ({ books, onEdit, onDelete, deletingId }: BookListProps) => {
                 color="red"
                 variant="soft"
                 onClick={() => onDelete(book.id)}
-                disabled={deletingId === book.id}
+                disabled={!canManage || deletingId === book.id}
               >
                 <TrashIcon />
                 {deletingId === book.id ? "Removing" : "Remove"}

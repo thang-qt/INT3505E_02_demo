@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from ..config import BOOK_CACHE_MAX_AGE
+from ..security.auth import require_auth
 from ..services.book_service import create_book, delete_book, get_all_books, get_book, update_book
 
 books_bp = Blueprint("books", __name__)
@@ -25,6 +26,7 @@ def retrieve_book(book_id: int):
 
 
 @books_bp.post("/books")
+@require_auth
 def create_book_handler():
     payload = request.get_json(silent=True) or {}
     try:
@@ -38,6 +40,7 @@ def create_book_handler():
 
 
 @books_bp.put("/books/<int:book_id>")
+@require_auth
 def update_book_handler(book_id: int):
     payload = request.get_json(silent=True) or {}
     try:
@@ -52,6 +55,7 @@ def update_book_handler(book_id: int):
 
 
 @books_bp.delete("/books/<int:book_id>")
+@require_auth
 def delete_book_handler(book_id: int):
     deleted = delete_book(book_id)
     if not deleted:

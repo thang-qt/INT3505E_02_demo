@@ -9,3 +9,7 @@ ALLOWED_ORIGINS = [origin.strip() for origin in os.environ.get("LIBRARY_ALLOWED_
 BOOK_CACHE_MAX_AGE = int(os.environ.get("LIBRARY_BOOK_CACHE_MAX_AGE", "60"))
 OPENAPI_ROUTE = "/openapi.json"
 SWAGGER_URL = "/docs"
+AUTH_SECRET = os.environ.get("LIBRARY_AUTH_SECRET", "library-secret-key")
+AUTH_USERNAME = os.environ.get("LIBRARY_AUTH_USERNAME", "admin")
+AUTH_PASSWORD = os.environ.get("LIBRARY_AUTH_PASSWORD", "password123")
+AUTH_TOKEN_TTL_SECONDS = int(os.environ.get("LIBRARY_AUTH_TOKEN_TTL_SECONDS", "3600"))

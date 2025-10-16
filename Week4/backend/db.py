@@ -31,6 +31,18 @@ def init_db() -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS loans (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                book_id INTEGER NOT NULL,
+                borrower TEXT NOT NULL,
+                loaned_at TEXT NOT NULL,
+                returned_at TEXT,
+                FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
+            )
+            """
+        )
         cursor = conn.execute("SELECT COUNT(1) FROM books")
         count = cursor.fetchone()[0]
         if count == 0:
