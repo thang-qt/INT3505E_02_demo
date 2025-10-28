@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: Product API
+  version: 1.0.0
+  description: API for managing products.
+servers:
+  - url: http://localhost:8000
+paths:
+  /products:
+    get:
+      summary: List products
+      responses:
+        '200':
+          description: Products retrieved
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Cache directive for the response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+    post:
+      summary: Create product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '201':
+          description: Product created
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Cache directive for the response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid payload
+  /products/{productId}:
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get product
+      responses:
+        '200':
+          description: Product retrieved
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Cache directive for the response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+    put:
+      summary: Replace product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Product updated
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Cache directive for the response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid payload
+        '404':
+          description: Product not found
+    delete:
+      summary: Delete product
+      responses:
+        '204':
+          description: Product deleted
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: Cache directive for the response
+        '404':
+          description: Product not found
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - price
+        - createdAt
+        - updatedAt
+    ProductInput:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+          format: float
+        description:
+          type: string
+          nullable: true
+      required:
+        - name
+        - price
