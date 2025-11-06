@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "f8e2d29c-7f4f-4a11-bfa5-17c1036e9021",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49865260",
+		"_collection_link": "https://thang-qt-8503177.postman.co/workspace/Quang-Th%25E1%25BA%25AFng's-Workspace~be163237-4208-4c00-8b9b-a3b445a2d9f6/collection/49865260-f8e2d29c-7f4f-4a11-bfa5-17c1036e9021?action=share&source=collection_link&creator=49865260"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test 1: Response status is 200",
+							"pm.test(\"Status is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Response has token",
+							"pm.test(\"Response has token\", function () {",
+							"    let data = pm.response.json();",
+							"    pm.expect(data.data.token).to.exist;",
+							"});",
+							"",
+							"// Test 4: Check response time < 500ms",
+							"pm.test(\"Response time < 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
